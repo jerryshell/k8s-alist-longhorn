@@ -27,7 +27,7 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 10Gi
+      storage: 1Gi
 ```
 
 ## Alist Deployment
@@ -39,7 +39,6 @@ metadata:
   name: alist
   labels:
     app: alist
-
 spec:
   replicas: 1
   selector:
@@ -51,22 +50,21 @@ spec:
         app: alist
     spec:
       containers:
-        - env:
+        - name: alist
+          image: xhofe/alist:latest
+          env:
             - name: PGID
               value: "0"
             - name: PUID
               value: "0"
             - name: UMASK
               value: "022"
-          image: xhofe/alist:latest
-          name: alist
           ports:
             - name: http
               containerPort: 5244
           volumeMounts:
             - mountPath: /opt/alist/data
               name: alist-pvc
-      restartPolicy: Always
       volumes:
         - name: alist-pvc
           persistentVolumeClaim:
@@ -80,7 +78,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: alist
-
 spec:
   ports:
     - name: http
@@ -97,7 +94,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: alist-ingress
-
 spec:
   rules:
     - host: pan.jerryshell.eu.org
@@ -157,7 +153,7 @@ kubectl patch pv pvc-UUID -p '{"spec":{"accessModes":["ReadWriteMany"]}}'
 vim alist-pvc.yaml
 kubectl apply -f alist-pvc.yaml
 kubectl patch pv pvc-UUID -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}'
-kubectl scale --replicas=2 deployment alist
+kubectl scale --replicas=1 deployment alist
 ```
 
 ## LICENSE
