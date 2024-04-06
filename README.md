@@ -143,6 +143,21 @@ spec:
         - pan.jerryshell.eu.org
 ```
 
+## Change alist-pvc Access Mode to ReadWriteMany
+
+```bash
+kubectl get pvc alist-pvc -o jsonpath='{.spec.volumeName}'
+# pvc-c070174a-1ae0-40f5-81d0-3b83dd4ad38b
+kubectl patch pv pvc-c070174a-1ae0-40f5-81d0-3b83dd4ad38b -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'
+kubectl scale --replicas=0 deployment alist
+kubectl delete pvc alist-pvc
+kubectl patch pv pvc-c070174a-1ae0-40f5-81d0-3b83dd4ad38b -p '{"spec":{"claimRef":{"uid":""}}}'
+kubectl patch pv pvc-c070174a-1ae0-40f5-81d0-3b83dd4ad38b -p '{"spec":{"accessModes":["ReadWriteMany"]}}'
+kubectl apply -f alist-pvc.yaml
+kubectl patch pv pvc-c070174a-1ae0-40f5-81d0-3b83dd4ad38b -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}'
+kubectl scale --replicas=2 deployment alist
+```
+
 ## LICENSE
 
 [GNU Affero General Public License v3.0](https://choosealicense.com/licenses/agpl-3.0/)
