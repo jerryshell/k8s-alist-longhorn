@@ -153,6 +153,8 @@ kubectl scale --replicas=0 deployment alist
 kubectl delete pvc alist-pvc
 kubectl patch pv pvc-c070174a-1ae0-40f5-81d0-3b83dd4ad38b -p '{"spec":{"claimRef":{"uid":""}}}'
 kubectl patch pv pvc-c070174a-1ae0-40f5-81d0-3b83dd4ad38b -p '{"spec":{"accessModes":["ReadWriteMany"]}}'
+# Change alist-pvc.yaml accessModes to ReadWriteMany
+vim alist-pvc.yaml
 kubectl apply -f alist-pvc.yaml
 kubectl patch pv pvc-c070174a-1ae0-40f5-81d0-3b83dd4ad38b -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}'
 kubectl scale --replicas=2 deployment alist
