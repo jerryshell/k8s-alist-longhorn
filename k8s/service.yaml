@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alist
+spec:
+  ports:
+    - name: http
+      port: 5244
+      targetPort: http
+  selector:
+    app: alist

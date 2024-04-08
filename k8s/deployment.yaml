@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alist
+  labels:
+    app: alist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alist
+  template:
+    metadata:
+      labels:
+        app: alist
+    spec:
+      containers:
+        - name: alist
+          image: xhofe/alist:latest
+          env:
+            - name: PGID
+              value: "0"
+            - name: PUID
+              value: "0"
+            - name: UMASK
+              value: "022"
+          ports:
+            - name: http
+              containerPort: 5244
+          volumeMounts:
+            - mountPath: /opt/alist/data
+              name: alist-pvc
+      volumes:
+        - name: alist-pvc
+          persistentVolumeClaim:
+            claimName: alist-pvc
