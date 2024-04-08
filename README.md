@@ -23,14 +23,14 @@ kubectl apply -f k8s/
 ## Ingress
 
 ```bash
-HOST=pan.jerryshell.eu.org # Replace your domain
+export HOST=pan.jerryshell.eu.org # Replace your domain
 cat k8s/ingress/ingress.yaml | envsubst | kubectl apply -f -
 ```
 
 ## TLS Ingress
 
 ```bash
-HOST=pan.jerryshell.eu.org # Replace your domain
+export HOST=pan.jerryshell.eu.org # Replace your domain
 cat k8s/ingress/tls-ingress.yaml | envsubst | kubectl apply -f -
 ```
 
