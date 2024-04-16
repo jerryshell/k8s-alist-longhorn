@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: alist-nohostname-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /alist
+            pathType: Prefix
+            backend:
+              service:
+                name: alist
+                port:
+                  name: http

@@ -67,6 +67,26 @@ kubectl scale --replicas=1 deployment alist
 
 </details>
 
+---
+
+<details>
+
+<summary>If using nohostname-ingress.yaml</summary>
+
+```bash
+kubectl exec -it alist-XXX -- bash
+```
+
+```bash
+vi data/config.json
+```
+
+```json
+"site_url": "/alist"
+```
+
+</details>
+
 ## LICENSE
 
 [GNU Affero General Public License v3.0](https://choosealicense.com/licenses/agpl-3.0/)
